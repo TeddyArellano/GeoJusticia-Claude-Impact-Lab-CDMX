@@ -201,6 +201,7 @@ Incluye:
 Este proyecto fue desarrollado para el evento **Mexico City | Claude Impact Lab**.
 
 - Referencia oficial del evento: [Luma - Mexico City Claude Impact Lab](https://luma.com/claudemexicocitylab?tk=oELi62)
+- Video DEMO del proyecto: [GeoJusticia DEMO](https://youtu.be/8pO6592fX8I)
 - Enfoque elegido por el equipo: **Scorecard de Servicios**
 - Objetivo dentro del track: evaluar y visualizar la capacidad de respuesta de servicios urbanos a partir de reportes ciudadanos y analitica territorial.
 
