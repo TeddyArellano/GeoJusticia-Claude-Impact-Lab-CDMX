@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoJusticia CDMX — Portal Ciudadano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════ RESET + TOKENS ══ */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0f0f0e;--ink2:#3d3d3a;--ink3:#888880;
+  --paper:#faf9f5;--paper2:#f2f1ec;--paper3:#e8e7e0;
+  --line:#dddbd2;--line2:#c8c6bc;
+  --brand:#1b4d3e;--brand2:#2d6a4f;--brand3:#52b788;
+  --brand-pale:#d8f3dc;--brand-pale2:#b7e4c7;
+  --red:#b91c1c;--red-pale:#fef2f2;
+  --amber:#92400e;--amber-pale:#fffbeb;
+  --blue:#1e3a5f;--blue-pale:#eff6ff;
+  --step-done:#52b788;--step-active:#1b4d3e;--step-wait:#c8c6bc;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+  --shadow-md:0 2px 8px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.08);
+  --r:10px;--r-lg:16px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;font-size:14px;line-height:1.6;min-height:100vh}
+
+/* ═══════════════════════════════════════ NAV ══ */
+nav{
+  position:sticky;top:0;z-index:900;
+  background:var(--brand);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 32px;height:56px;
+}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-logo{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.3px}
+.nav-title em{font-style:normal;color:var(--brand3)}
+.nav-sub{font-size:10px;opacity:.6;margin-top:1px}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-link{color:rgba(255,255,255,.75);text-decoration:none;font-size:12px;font-weight:500;
+  transition:color .15s}
+.nav-link:hover{color:#fff}
+.nav-tag{background:rgba(255,255,255,.15);border-radius:20px;padding:3px 10px;
+  font-size:10px;font-weight:600;letter-spacing:.5px;color:rgba(255,255,255,.9)}
+
+/* ═══════════════════════════════════════ HERO ══ */
+.hero{
+  background:var(--brand);color:#fff;
+  padding:48px 32px 64px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-inner{max-width:680px;margin:0 auto;position:relative}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;
+  letter-spacing:.8px;text-transform:uppercase;color:var(--brand3);
+  margin-bottom:16px;
+}
+.hero h1{
+  font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,46px);
+  font-weight:800;line-height:1.1;letter-spacing:-1px;
+  margin-bottom:16px;
+}
+.hero h1 em{font-style:normal;color:var(--brand3)}
+.hero p{font-size:16px;opacity:.8;line-height:1.65;max-width:520px;margin-bottom:28px}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap}
+.hstat{text-align:left}
+.hstat-n{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:var(--brand3);line-height:1}
+.hstat-l{font-size:11px;opacity:.65;margin-top:2px}
+
+/* ═══════════════════════════════════════ MAIN LAYOUT ══ */
+.main{max-width:780px;margin:0 auto;padding:40px 24px 80px}
+
+/* ═══════════════════════════════════════ STEPPER ══ */
+.stepper{
+  display:flex;align-items:center;gap:0;
+  background:var(--paper2);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:16px 20px;margin-bottom:32px;
+}
+.step{display:flex;align-items:center;gap:8px;flex:1}
+.step-dot{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;transition:all .25s;
+}
+.step.done .step-dot{background:var(--step-done);color:#fff}
+.step.active .step-dot{background:var(--step-active);color:#fff;box-shadow:0 0 0 4px rgba(27,77,62,.2)}
+.step.wait .step-dot{background:var(--paper3);color:var(--ink3)}
+.step-text{font-size:12px;font-weight:500}
+.step.wait .step-text{color:var(--ink3)}
+.step-line{flex:1;height:1px;background:var(--line);margin:0 4px;max-width:40px}
+
+/* ═══════════════════════════════════════ SECTION CARDS ══ */
+.section-card{
+  background:var(--paper2);border:1px solid var(--line);
+  border-radius:var(--r-lg);overflow:hidden;margin-bottom:20px;
+  animation:slideUp .35s ease both;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.section-head{
+  background:var(--paper);border-bottom:1px solid var(--line);
+  padding:16px 20px;display:flex;align-items:center;gap:10px;
+}
+.section-icon{
+  width:34px;height:34px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;
+}
+.section-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.section-sub{font-size:11px;color:var(--ink3);margin-top:1px}
+.section-body{padding:20px}
+
+/* ═══════════════════════════════════════ BÚSQUEDA ALCALDÍA ══ */
+.search-wrap{position:relative}
+.search-input-row{display:flex;gap:8px}
+.search-input-row input{
+  flex:1;background:var(--paper);border:1.5px solid var(--line2);border-radius:var(--r);
+  color:var(--ink);padding:12px 16px;font-size:14px;font-family:'DM Sans',sans-serif;
+  outline:none;transition:border .15s;
+}
+.search-input-row input:focus{border-color:var(--brand2)}
+.btn-buscar{
+  background:var(--brand);border:none;border-radius:var(--r);color:#fff;
+  padding:12px 20px;font-size:13px;font-weight:600;font-family:'DM Sans',sans-serif;
+  cursor:pointer;white-space:nowrap;transition:background .15s;
+}
+.btn-buscar:hover{background:var(--brand2)}
+.dropdown{
+  position:absolute;top:calc(100% + 4px);left:0;right:0;
+  background:var(--paper);border:1px solid var(--line2);border-radius:var(--r);
+  box-shadow:var(--shadow-md);z-index:200;max-height:220px;overflow-y:auto;display:none;
+}
+.dropdown.open{display:block}
+.dd-item{
+  padding:10px 16px;cursor:pointer;font-size:13px;
+  border-bottom:1px solid var(--line);transition:background .1s;display:flex;
+  justify-content:space-between;align-items:center;
+}
+.dd-item:last-child{border:none}
+.dd-item:hover{background:var(--paper2)}
+.dd-item-pop{font-size:10px;color:var(--ink3)}
+
+/* Tarjeta alcalde encontrado */
+.alcalde-card{
+  background:var(--brand);color:#fff;border-radius:var(--r);
+  padding:16px;margin-top:12px;display:none;
+  animation:slideUp .25s ease;
+}
+.alcalde-card.show{display:flex;gap:14px;align-items:flex-start}
+.alcalde-avatar{
+  width:46px;height:46px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:700;
+}
+.alcalde-info{flex:1}
+.alcalde-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;line-height:1.2}
+.alcalde-alcaldia{font-size:11px;opacity:.75;margin-top:2px}
+.alcalde-meta{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap}
+.alcalde-meta span{font-size:11px;opacity:.8;display:flex;align-items:center;gap:4px}
+.partido-badge{
+  background:rgba(255,255,255,.2);border-radius:12px;
+  padding:2px 8px;font-size:10px;font-weight:600;letter-spacing:.5px;
+}
+
+/* ═══════════════════════════════════════ CATEGORÍAS ══ */
+.cat-grid{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.cat-item{
+  display:flex;align-items:center;gap:0;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  cursor:pointer;overflow:hidden;transition:all .15s;
+}
+.cat-item:hover{border-color:var(--brand3);transform:translateX(2px)}
+.cat-item.selected{border-color:var(--brand);background:var(--brand-pale)}
+.cat-stripe{width:5px;align-self:stretch;flex-shrink:0}
+.cat-num{
+  width:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--line2);
+  border-right:1px solid var(--line);padding:14px 0;transition:color .15s;
+}
+.cat-item.selected .cat-num,.cat-item:hover .cat-num{color:var(--brand)}
+.cat-body{padding:12px 16px;flex:1}
+.cat-title{font-size:14px;font-weight:500;color:var(--ink)}
+.cat-tags{font-size:10px;color:var(--ink3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+.cat-check{width:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;opacity:0;transition:opacity .15s}
+.cat-item.selected .cat-check{opacity:1}
+
+/* ═══════════════════════════════════════ FORMULARIO ══ */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-full{grid-column:1/-1}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:11px;font-weight:600;color:var(--ink2);text-transform:uppercase;letter-spacing:.6px}
+.form-input,.form-select,.form-textarea{
+  background:var(--paper);border:1.5px solid var(--line2);border-radius:var(--r);
+  color:var(--ink);padding:11px 14px;font-size:13px;font-family:'DM Sans',sans-serif;
+  outline:none;transition:border .15s;width:100%;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--brand2)}
+.form-textarea{resize:vertical;min-height:90px}
+.form-hint{font-size:11px;color:var(--ink3);margin-top:2px}
+
+/* Urgencia */
+.urgencia-row{display:flex;gap:8px;margin-top:4px}
+.urg-btn{
+  flex:1;padding:9px;border:1.5px solid var(--line2);border-radius:var(--r);
+  background:var(--paper);color:var(--ink);font-size:12px;font-weight:500;
+  font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;text-align:center;
+}
+.urg-btn:hover{border-color:var(--line)}
+.urg-btn.sel-baja{border-color:var(--brand3);background:var(--brand-pale);color:var(--brand)}
+.urg-btn.sel-media{border-color:#d97706;background:#fffbeb;color:#92400e}
+.urg-btn.sel-alta{border-color:#dc2626;background:var(--red-pale);color:var(--red)}
+
+/* ═══════════════════════════════════════ ESCALACIÓN VISUAL ══ */
+.escalacion-box{
+  background:var(--amber-pale);border:1px solid #fcd34d;border-radius:var(--r);
+  padding:14px 16px;margin-top:16px;
+}
+.esc-title{font-size:12px;font-weight:600;color:var(--amber);margin-bottom:8px;
+  display:flex;align-items:center;gap:6px}
+.esc-timeline{display:flex;align-items:center;gap:0}
+.esc-node{text-align:center;flex:1}
+.esc-circle{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;margin:0 auto 5px;
+}
+.esc-circle.n1{background:var(--brand-pale);border:2px solid var(--brand3)}
+.esc-circle.n2{background:#fef3c7;border:2px solid #fcd34d}
+.esc-circle.n3{background:#fee2e2;border:2px solid #fca5a5}
+.esc-label{font-size:10px;font-weight:600;color:var(--ink2)}
+.esc-days{font-size:9px;color:var(--ink3)}
+.esc-arrow{font-size:18px;color:var(--line2);flex-shrink:0;padding:0 4px}
+
+/* ═══════════════════════════════════════ BTN SUBMIT ══ */
+.btn-submit{
+  width:100%;background:var(--brand);border:none;border-radius:var(--r-lg);
+  color:#fff;padding:16px;font-size:15px;font-weight:700;
+  font-family:'Syne',sans-serif;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .15s,transform .1s;letter-spacing:.3px;
+  margin-top:20px;
+}
+.btn-submit:hover{background:var(--brand2)}
+.btn-submit:active{transform:scale(.98)}
+.btn-submit .arrow{font-size:18px;transition:transform .2s}
+.btn-submit:hover .arrow{transform:translateX(3px)}
+
+/* ═══════════════════════════════════════ CONFIRMACIÓN ══ */
+.confirm-screen{
+  display:none;
+  background:var(--brand);border-radius:var(--r-lg);
+  padding:40px 32px;text-align:center;color:#fff;
+  animation:slideUp .4s ease;
+}
+.confirm-screen.show{display:block}
+.confirm-check{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:3px solid var(--brand3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;margin:0 auto 20px;
+}
+.confirm-folio{
+  font-family:'Syne',sans-serif;font-size:28px;font-weight:800;
+  color:var(--brand3);letter-spacing:-1px;margin:8px 0;
+}
+.confirm-sub{font-size:14px;opacity:.8;line-height:1.65;max-width:420px;margin:12px auto 0}
+.confirm-timeline{
+  background:rgba(255,255,255,.1);border-radius:var(--r);
+  padding:16px;margin:24px 0;text-align:left;
+}
+.ct-row{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:12px}
+.ct-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.confirm-actions{display:flex;gap:10px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+.ca-btn{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  border-radius:var(--r);color:#fff;padding:10px 20px;font-size:12px;font-weight:600;
+  font-family:'DM Sans',sans-serif;cursor:pointer;transition:background .15s;
+}
+.ca-btn:hover{background:rgba(255,255,255,.25)}
+.ca-btn.primary{background:#fff;color:var(--brand);border-color:#fff}
+.ca-btn.primary:hover{background:var(--brand-pale);color:var(--brand)}
+
+/* ═══════════════════════════════════════ TABLA QUEJAS ══ */
+.quejas-empty{
+  text-align:center;padding:32px 16px;color:var(--ink3);font-size:13px;
+}
+.quejas-empty .icon{font-size:32px;margin-bottom:8px}
+.quejas-table{width:100%;border-collapse:collapse;font-size:12px}
+.quejas-table th{
+  text-align:left;padding:8px 12px;font-size:10px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.8px;color:var(--ink3);
+  border-bottom:1px solid var(--line);
+}
+.quejas-table td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.quejas-table tr:last-child td{border:none}
+.status-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  border-radius:12px;padding:3px 9px;font-size:10px;font-weight:600;
+}
+.pill-pendiente{background:#fef3c7;color:#92400e}
+.pill-atendido{background:var(--brand-pale);color:var(--brand)}
+.pill-escalado{background:#fee2e2;color:var(--red)}
+.days-badge{
+  background:var(--paper3);border-radius:6px;padding:2px 7px;
+  font-size:10px;font-weight:600;color:var(--ink2);font-family:'Syne',sans-serif;
+}
+.days-badge.urgent{background:#fee2e2;color:var(--red)}
+
+/* ═══════════════════════════════════════ FOOTER INFO ══ */
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.info-card{
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:14px 16px;
+}
+.info-card-icon{font-size:20px;margin-bottom:6px}
+.info-card-title{font-size:12px;font-weight:600;margin-bottom:4px}
+.info-card-body{font-size:11px;color:var(--ink3);line-height:1.55}
+
+/* ═══════════════════════════════════════ RESPONSIVE ══ */
+@media(max-width:600px){
+  .hero{padding:32px 20px 48px}
+  .main{padding:24px 16px 60px}
+  .form-grid{grid-template-columns:1fr}
+  .form-full{grid-column:auto}
+  .stepper{flex-wrap:wrap;gap:8px}
+  .step-line{display:none}
+  .info-grid{grid-template-columns:1fr}
+  .esc-label{font-size:9px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">⚖️</div>
+    <div>
+      <div class="nav-title">Geo<em>Justicia</em> CDMX</div>
+      <div class="nav-sub">Plataforma ciudadana de peticiones</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="geojusticia_cdmx.html" class="nav-link">Ver mapa</a>
+    <span class="nav-tag">SUAC 0311</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-kicker">⚖️ Justicia espacial · CDMX 2024</div>
+    <h1>Tu queja llega<br>al <em>alcalde correcto.</em><br>Con nombre y apellido.</h1>
+    <p>Selecciona tu alcaldía, describe el problema y tu petición va directamente a quien tiene la obligación legal de resolverlo. Si no responde en 15 días, el sistema lo escala solo.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">16</div><div class="hstat-l">Alcaldías conectadas</div></div>
+      <div class="hstat"><div class="hstat-n">38,708</div><div class="hstat-l">Quejas registradas 2024</div></div>
+      <div class="hstat"><div class="hstat-n">15 días</div><div class="hstat-l">Plazo máximo de atención</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- STEPPER -->
+  <div class="stepper" id="stepper">
+    <div class="step active" id="st1">
+      <div class="step-dot">1</div>
+      <div class="step-text">Tu alcaldía</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step wait" id="st2">
+      <div class="step-dot">2</div>
+      <div class="step-text">El problema</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step wait" id="st3">
+      <div class="step-dot">3</div>
+      <div class="step-text">Tus datos</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step wait" id="st4">
+      <div class="step-dot">4</div>
+      <div class="step-text">Confirmación</div>
+    </div>
+  </div>
+
+  <!-- PASO 1: BUSCAR ALCALDÍA -->
+  <div class="section-card" id="card-alcaldia">
+    <div class="section-head">
+      <div class="section-icon" style="background:#d8f3dc">🏛️</div>
+      <div>
+        <div class="section-title">¿En qué alcaldía es el problema?</div>
+        <div class="section-sub">Busca por nombre — te mostramos quién está a cargo</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="search-wrap">
+        <div class="search-input-row">
+          <input type="text" id="alcaldiaInput" placeholder="Escribe tu alcaldía..." autocomplete="off"
+            oninput="filtrarDropdown()" onfocus="abrirDropdown()" onblur="cerrarDropdown()">
+          <button class="btn-buscar" onclick="buscarAlcaldia()">Buscar</button>
+        </div>
+        <div class="dropdown" id="dropdown"></div>
+      </div>
+      <div class="alcalde-card" id="alcaldeCard"></div>
+    </div>
+  </div>
+
+  <!-- PASO 2: TIPO DE PROBLEMA -->
+  <div class="section-card" id="card-problema" style="display:none">
+    <div class="section-head">
+      <div class="section-icon" style="background:#fef3c7">🔧</div>
+      <div>
+        <div class="section-title">¿Cuál es el problema?</div>
+        <div class="section-sub">Selecciona la categoría — puedes agregar detalles después</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="cat-grid">
+        <div class="cat-item" onclick="selCat(this,'Bacheo y pavimentación','BACHEO·MANTENIMIENTO VÍA·EMPEDRADO')">
+          <div class="cat-stripe" style="background:#f59e0b"></div>
+          <div class="cat-num">1</div>
+          <div class="cat-body">
+            <div class="cat-title">Bacheo y pavimentación</div>
+            <div class="cat-tags">BACHEO · MANTENIMIENTO VÍA PÚBLICA · REPARACIÓN EMPEDRADO</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+        <div class="cat-item" onclick="selCat(this,'Fuga y falta de agua','FUGA DE AGUA·FALTA DE AGUA')">
+          <div class="cat-stripe" style="background:#3b82f6"></div>
+          <div class="cat-num">2</div>
+          <div class="cat-body">
+            <div class="cat-title">Fuga o falta de agua</div>
+            <div class="cat-tags">FUGA DE AGUA · FALTA DE AGUA · TOMA DOMICILIARIA</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+        <div class="cat-item" onclick="selCat(this,'Alumbrado público','ALUMBRADO·LUMINARIA·POSTE')">
+          <div class="cat-stripe" style="background:#eab308"></div>
+          <div class="cat-num">3</div>
+          <div class="cat-body">
+            <div class="cat-title">Alumbrado público</div>
+            <div class="cat-tags">LUMINARIA FUNDIDA · POSTE SIN LUZ · ZONA SIN ALUMBRADO</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+        <div class="cat-item" onclick="selCat(this,'Drenaje y desazolve','DRENAJE·DESAZOLVE·COLADERA')">
+          <div class="cat-stripe" style="background:#6366f1"></div>
+          <div class="cat-num">4</div>
+          <div class="cat-body">
+            <div class="cat-title">Drenaje y desazolve</div>
+            <div class="cat-tags">MANTENIMIENTO DRENAJE · DESAZOLVE · COLADERA / ALCANTARILLA</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+        <div class="cat-item" onclick="selCat(this,'Limpieza y residuos','BASURA·CASCAJO·ESCOMBRO')">
+          <div class="cat-stripe" style="background:#22c55e"></div>
+          <div class="cat-num">5</div>
+          <div class="cat-body">
+            <div class="cat-title">Limpieza y residuos</div>
+            <div class="cat-tags">RECOLECCIÓN BASURA · RETIRO CASCAJO / ESCOMBRO · TIRADERO</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+        <div class="cat-item" onclick="selCat(this,'Seguridad y vigilancia','VIGILANCIA·VEHÍCULO ABANDONADO·AMBULANTE')">
+          <div class="cat-stripe" style="background:#ef4444"></div>
+          <div class="cat-num">6</div>
+          <div class="cat-body">
+            <div class="cat-title">Seguridad y vigilancia</div>
+            <div class="cat-tags">SOLICITUD VIGILANCIA · VEHÍCULO ABANDONADO · AMBULANTE IRREGULAR</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+        <div class="cat-item" onclick="selCat(this,'Áreas verdes y parques','PODA·ÁRBOL·PARQUE')">
+          <div class="cat-stripe" style="background:#84cc16"></div>
+          <div class="cat-num">7</div>
+          <div class="cat-body">
+            <div class="cat-title">Áreas verdes y parques</div>
+            <div class="cat-tags">PODA / RETIRO ÁRBOL · MANTENIMIENTO PARQUE / ÁREA VERDE</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+        <div class="cat-item" onclick="selCat(this,'Otro problema urbano','OTRO')">
+          <div class="cat-stripe" style="background:#a1a1aa"></div>
+          <div class="cat-num">8</div>
+          <div class="cat-body">
+            <div class="cat-title">Otro problema urbano</div>
+            <div class="cat-tags">SEMÁFOROS · BALIZAMIENTO · VERIFICACIÓN ADMINISTRATIVA</div>
+          </div>
+          <div class="cat-check">✓</div>
+        </div>
+      </div>
+
+      <!-- Urgencia -->
+      <div style="margin-top:16px">
+        <div class="form-label" style="margin-bottom:6px">Nivel de urgencia</div>
+        <div class="urgencia-row">
+          <button class="urg-btn sel-baja" id="urg-baja" onclick="selUrgencia('baja',this)">🟢 Baja — puede esperar</button>
+          <button class="urg-btn" id="urg-media" onclick="selUrgencia('media',this)">🟡 Media — afecta el día a día</button>
+          <button class="urg-btn" id="urg-alta" onclick="selUrgencia('alta',this)">🔴 Alta — riesgo inmediato</button>
+        </div>
+      </div>
+
+      <!-- Escalación visual -->
+      <div class="escalacion-box">
+        <div class="esc-title">⏱ ¿Qué pasa si no responden?</div>
+        <div class="esc-timeline">
+          <div class="esc-node">
+            <div class="esc-circle n1">📋</div>
+            <div class="esc-label">Alcalde</div>
+            <div class="esc-days">Día 1</div>
+          </div>
+          <div class="esc-arrow">→</div>
+          <div class="esc-node">
+            <div class="esc-circle n2">⚠️</div>
+            <div class="esc-label">Director</div>
+            <div class="esc-days">Día 15</div>
+          </div>
+          <div class="esc-arrow">→</div>
+          <div class="esc-node">
+            <div class="esc-circle n3">🏛️</div>
+            <div class="esc-label">Sistema CDMX</div>
+            <div class="esc-days">Día 30</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--amber);margin-top:8px">
+          El reporte se envía al alcalde de tu alcaldía cada lunes. Si en 15 días no hay respuesta, escala automáticamente al Director. Sin excusas.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 3: DATOS DEL SOLICITANTE -->
+  <div class="section-card" id="card-datos" style="display:none">
+    <div class="section-head">
+      <div class="section-icon" style="background:#eff6ff">👤</div>
+      <div>
+        <div class="section-title">Tus datos y la ubicación exacta</div>
+        <div class="section-sub">Para generarte un folio de seguimiento y notificarte el avance</div>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Nombre completo *</label>
+          <input class="form-input" id="fNombre" type="text" placeholder="Tu nombre completo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Correo electrónico *</label>
+          <input class="form-input" id="fEmail" type="email" placeholder="para@recibir.tu.folio">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono (opcional)</label>
+          <input class="form-input" id="fTel" type="tel" placeholder="55 XXXX XXXX">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Colonia *</label>
+          <input class="form-input" id="fColonia" type="text" placeholder="Nombre de tu colonia">
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Calle y referencias *</label>
+          <input class="form-input" id="fCalle" type="text" placeholder="Ej. Calle Insurgentes entre Álvaro Obregón y Sonora, frente al parque">
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Descripción detallada del problema *</label>
+          <textarea class="form-textarea" id="fDesc" placeholder="Describe el problema con el mayor detalle posible: ¿desde cuándo existe? ¿cuántas personas afecta? ¿ya se reportó antes?"></textarea>
+        </div>
+        <div class="form-group form-full" style="background:var(--paper3);border-radius:var(--r);padding:12px 14px;border:1px solid var(--line)">
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <input type="checkbox" id="fLocatel" style="margin-top:2px;flex-shrink:0;accent-color:var(--brand)">
+            <label for="fLocatel" style="font-size:12px;color:var(--ink2);cursor:pointer;line-height:1.5">
+              Derivar también esta queja a <strong>Locatel / SUAC (0311)</strong> para seguimiento oficial por parte del gobierno de la CDMX.
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-submit" onclick="enviarQueja()">
+        Enviar petición al alcalde <span class="arrow">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PASO 4: CONFIRMACIÓN -->
+  <div class="confirm-screen" id="confirmScreen">
+    <div class="confirm-check">✓</div>
+    <div style="font-size:13px;opacity:.75;letter-spacing:.5px;text-transform:uppercase">Petición registrada</div>
+    <div class="confirm-folio" id="confirmFolio">GJ-000000</div>
+    <div style="font-size:13px;opacity:.8" id="confirmAlcalde">Enviada al Alcalde —</div>
+    <div class="confirm-sub" id="confirmSub">
+      Tu queja ha sido enviada directamente al despacho de la alcaldía. Recibirás una copia por correo y un aviso si escala.
+    </div>
+    <div class="confirm-timeline">
+      <div class="ct-row"><div class="ct-dot" style="background:#52b788"></div><span><strong>Hoy</strong> — Petición registrada y enviada al alcalde</span></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#52b788"></div><span><strong>Cada lunes</strong> — Reporte semanal al despacho de la alcaldía</span></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#fcd34d"></div><span><strong>Día 15</strong> — Sin respuesta: escalación automática al Director</span></div>
+      <div class="ct-row"><div class="ct-dot" style="background:#fca5a5"></div><span><strong>Día 30</strong> — Escala al Sistema de Gestión de CDMX</span></div>
+    </div>
+    <div class="confirm-actions">
+      <button class="ca-btn" onclick="verMiQueja()">Ver mis quejas</button>
+      <button class="ca-btn" onclick="nuevaQueja()">Reportar otro problema</button>
+      <a href="geojusticia_cdmx.html"><button class="ca-btn primary">Ver mapa de la ciudad →</button></a>
+    </div>
+  </div>
+
+  <!-- MIS QUEJAS -->
+  <div class="section-card" id="card-misquejas" style="display:none;margin-top:24px">
+    <div class="section-head">
+      <div class="section-icon" style="background:#f0fdf4">📋</div>
+      <div>
+        <div class="section-title">Mis peticiones registradas</div>
+        <div class="section-sub">Solo visibles en este dispositivo</div>
+      </div>
+    </div>
+    <div class="section-body" id="misquejas-body">
+      <div class="quejas-empty"><div class="icon">📭</div>Aún no tienes quejas registradas</div>
+    </div>
+  </div>
+
+  <!-- INFO CARDS -->
+  <div style="margin-top:32px">
+    <div style="font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;
+      letter-spacing:1.4px;margin-bottom:12px">¿Cómo funciona GeoJusticia?</div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-icon">📡</div>
+        <div class="info-card-title">Datos abiertos de la ciudad</div>
+        <div class="info-card-body">Cruzamos FGJ, C5 WiFi, GTFS y quejas históricas de Locatel para calcular el Índice de Injusticia Espacial de cada zona.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">⚖️</div>
+        <div class="info-card-title">Rendición de cuentas automática</div>
+        <div class="info-card-body">El alcalde recibe un reporte cada lunes. Sin respuesta en 15 días, el sistema escala solo — sin que tengas que insistir.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🗺️</div>
+        <div class="info-card-title">Índice de Injusticia Espacial</div>
+        <div class="info-card-body">Medimos el riesgo del trayecto del ciudadano, no solo lo que pasa dentro de los servicios. La justicia comienza en la banqueta.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🔒</div>
+        <div class="info-card-title">Tus datos, tu control</div>
+        <div class="info-card-body">Tu nombre y correo solo se usan para enviarte el folio y actualizaciones. No se comparten con terceros ni se usan para publicidad.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+const ALCALDES = [{"municipio":"Azcapotzalco","nombre":"Margarita","ap_paterno":"Saldaña","ap_materno":"Hernández","partido":"COAL.","telefono":"55 53-54-99-94","pag_web":"http://azcapotzalco.cdmx.gob.mx/","total_pob":432205},{"municipio":"Coyoacán","nombre":"Jose Giovani","ap_paterno":"Gutierrez","ap_materno":"Aguilar","partido":"COAL.","telefono":"55 56-59-59-34","pag_web":"http://coyoacan.cdmx.gob.mx/","total_pob":614447},{"municipio":"Cuajimalpa de Morelos","nombre":"Adrian","ap_paterno":"Rubalcava","ap_materno":"Suarez","partido":"COAL.","telefono":"55 58-14-11-00","pag_web":"http://cuajimalpa.cdmx.gob.mx/","total_pob":217686},{"municipio":"Gustavo A. Madero","nombre":"Enrique Rodrigo","ap_paterno":"Rojas","ap_materno":"Serafin","partido":"MORENA","telefono":"55 51-18-28-02","pag_web":"http://www.gamadero.gob.mx/","total_pob":1173351},{"municipio":"Iztacalco","nombre":"Raul Armando","ap_paterno":"Quintero","ap_materno":"Martinez","partido":"COAL.","telefono":"55 56-54-33-33","pag_web":"http://www.iztacalco.cdmx.gob.mx/","total_pob":404695},{"municipio":"Iztapalapa","nombre":"Raul","ap_paterno":"Basulto","ap_materno":"Luviano","partido":"COAL.","telefono":"55 56-85-40-22","pag_web":"http://www.iztapalapa.cdmx.gob.mx","total_pob":1835486},{"municipio":"La Magdalena Contreras","nombre":"Luis Gerardo","ap_paterno":"Quijano","ap_materno":"Morales","partido":"COAL.","telefono":"55 54-49-60-00","pag_web":"http://mcontreras.gob.mx/","total_pob":247622},{"municipio":"Álvaro Obregón","nombre":"Lia","ap_paterno":"Limon","ap_materno":"Garcia","partido":"COAL.","telefono":"55 52-76-67-00","pag_web":"http://www.dao.gob.mx","total_pob":759137},{"municipio":"Tláhuac","nombre":"Araceli Berenice","ap_paterno":"Hernández","ap_materno":"Calderón","partido":"COAL.","telefono":"55 58-42-89-77","pag_web":"http://www.tlahuac.cdmx.gob.mx/","total_pob":392313},{"municipio":"Tlalpan","nombre":"Alfa Eliana","ap_paterno":"González","ap_materno":"Magallanes","partido":"COAL.","telefono":"55 56-55-60-24","pag_web":"http://www.tlalpan.cdmx.gob.mx","total_pob":699928},{"municipio":"Xochimilco","nombre":"Juana Onesima","ap_paterno":"Delgado","ap_materno":"Chavez","partido":"MORENA","telefono":"55 89-57-36-00","pag_web":"http://xochimilco.gob.mx/","total_pob":442178},{"municipio":"Benito Juárez","nombre":"Santiago","ap_paterno":"Taboada","ap_materno":"Cortina","partido":"PAN","telefono":"55 56-04-12-12","pag_web":"http://www.delegacionbenitojuarez.gob.mx/","total_pob":434153},{"municipio":"Cuauhtémoc","nombre":"Raul","ap_paterno":"Ortega","ap_materno":"Rodriguez","partido":"PAN","telefono":"55 24-52-31-00","pag_web":"http://alcaldiacuauhtemoc.mx/","total_pob":545884},{"municipio":"Miguel Hidalgo","nombre":"Mauricio","ap_paterno":"Tabe","ap_materno":"Echartea","partido":"COAL.","telefono":"55 52-76-77-01","pag_web":"http://miguelhidalgo.cdmx.gob.mx/","total_pob":414470},{"municipio":"Venustiano Carranza","nombre":"Adolfo","ap_paterno":"Hernandez","ap_materno":"Garcia","partido":"MORENA","telefono":"55 57-64-94-00","pag_web":"http://www.vcarranza.cdmx.gob.mx/","total_pob":443704}];
+
+let alcaldeSeleccionado = null;
+let categoriaSeleccionada = null;
+let urgencia = 'baja';
+let misQuejas = JSON.parse(localStorage.getItem('gj_quejas') || '[]');
+
+function norm(s){ return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(); }
+
+/* ── Dropdown alcaldías ──────────────────────────────────────────── */
+function filtrarDropdown(){
+  const q = norm(document.getElementById('alcaldiaInput').value);
+  const dd = document.getElementById('dropdown');
+  if(!q){ dd.classList.remove('open'); return; }
+  const matches = ALCALDES.filter(a => norm(a.municipio).includes(q));
+  if(!matches.length){ dd.classList.remove('open'); return; }
+  dd.innerHTML = matches.map(a =>
+    `<div class="dd-item" onmousedown="elegirAlcaldia('${a.municipio}')">
+      <span>${a.municipio}</span>
+      <span class="dd-item-pop">${a.total_pob.toLocaleString()} hab.</span>
+    </div>`
+  ).join('');
+  dd.classList.add('open');
+}
+
+function abrirDropdown(){ filtrarDropdown(); }
+function cerrarDropdown(){ setTimeout(()=>document.getElementById('dropdown').classList.remove('open'),180); }
+
+function elegirAlcaldia(nombre){
+  document.getElementById('alcaldiaInput').value = nombre;
+  document.getElementById('dropdown').classList.remove('open');
+  buscarAlcaldia();
+}
+
+function buscarAlcaldia(){
+  const q = norm(document.getElementById('alcaldiaInput').value);
+  const a = ALCALDES.find(x => norm(x.municipio) === q || norm(x.municipio).includes(q));
+  if(!a){ alert('Por favor selecciona una alcaldía de la lista.'); return; }
+  alcaldeSeleccionado = a;
+  const initials = a.nombre.charAt(0) + a.ap_paterno.charAt(0);
+  const pColor = a.partido==='MORENA'?'#b91c1c':a.partido==='PAN'?'#1d4ed8':'#3f6212';
+  document.getElementById('alcaldeCard').className = 'alcalde-card show';
+  document.getElementById('alcaldeCard').innerHTML = `
+    <div class="alcalde-avatar">${initials}</div>
+    <div class="alcalde-info">
+      <div class="alcalde-name">${a.nombre} ${a.ap_paterno} ${a.ap_materno}</div>
+      <div class="alcalde-alcaldia">Alcalde/sa de ${a.municipio}</div>
+      <div class="alcalde-meta">
+        <span><span class="partido-badge" style="background:rgba(255,255,255,.25)">${a.partido}</span></span>
+        <span>📞 ${a.telefono}</span>
+        <span>👥 ${a.total_pob.toLocaleString()} hab.</span>
+      </div>
+    </div>`;
+  document.getElementById('card-problema').style.display = 'block';
+  document.getElementById('card-datos').style.display = 'block';
+  setStepper(2);
+  setTimeout(()=>document.getElementById('card-problema').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+/* ── Categorías ──────────────────────────────────────────────────── */
+function selCat(el, titulo, tags){
+  document.querySelectorAll('.cat-item').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  categoriaSeleccionada = {titulo, tags};
+  setStepper(3);
+}
+
+/* ── Urgencia ────────────────────────────────────────────────────── */
+function selUrgencia(nivel, btn){
+  urgencia = nivel;
+  document.querySelectorAll('.urg-btn').forEach(b=>b.className='urg-btn');
+  btn.classList.add('sel-'+nivel);
+}
+
+/* ── Stepper ─────────────────────────────────────────────────────── */
+function setStepper(active){
+  for(let i=1;i<=4;i++){
+    const s = document.getElementById('st'+i);
+    s.className = 'step ' + (i < active ? 'done' : i===active ? 'active' : 'wait');
+    s.querySelector('.step-dot').textContent = i < active ? '✓' : i;
+  }
+}
+
+/* ── Enviar queja ────────────────────────────────────────────────── */
+function enviarQueja(){
+  if(!alcaldeSeleccionado){ alert('Por favor selecciona tu alcaldía primero.'); return; }
+  if(!categoriaSeleccionada){ alert('Por favor selecciona el tipo de problema.'); return; }
+  const nombre = document.getElementById('fNombre').value.trim();
+  const email  = document.getElementById('fEmail').value.trim();
+  const colonia= document.getElementById('fColonia').value.trim();
+  const calle  = document.getElementById('fCalle').value.trim();
+  const desc   = document.getElementById('fDesc').value.trim();
+  if(!nombre||!email||!colonia||!calle||!desc){
+    alert('Por favor completa todos los campos obligatorios (*).');
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    alert('Por favor ingresa un correo electrónico válido.');
+    return;
+  }
+  const folio = 'GJ-' + new Date().getFullYear().toString().slice(-2) +
+    String(new Date().getMonth()+1).padStart(2,'0') +
+    String(new Date().getDate()).padStart(2,'0') + '-' +
+    Math.random().toString(36).slice(2,6).toUpperCase();
+
+  const queja = {
+    folio, nombre, email, telefono:document.getElementById('fTel').value,
+    alcaldia: alcaldeSeleccionado.municipio,
+    alcalde: `${alcaldeSeleccionado.nombre} ${alcaldeSeleccionado.ap_paterno}`,
+    categoria: categoriaSeleccionada.titulo,
+    urgencia, colonia, calle, descripcion: desc,
+    locatel: document.getElementById('fLocatel').checked,
+    fecha: new Date().toISOString(),
+    estatus: 'pendiente',
+    dias: 0,
+  };
+
+  misQuejas.unshift(queja);
+  localStorage.setItem('gj_quejas', JSON.stringify(misQuejas));
+
+  // Mostrar confirmación
+  ['card-alcaldia','card-problema','card-datos'].forEach(id=>{
+    document.getElementById(id).style.display='none';
+  });
+  const cs = document.getElementById('confirmScreen');
+  cs.classList.add('show');
+  document.getElementById('confirmFolio').textContent = folio;
+  document.getElementById('confirmAlcalde').textContent =
+    `Enviada al Alcalde ${queja.alcalde} — ${queja.alcaldia}`;
+  document.getElementById('confirmSub').textContent =
+    `Tu queja de "${queja.categoria}" en ${queja.colonia} fue registrada. ` +
+    (queja.locatel ? 'También se derivó a Locatel (0311). ' : '') +
+    'Recibirás actualizaciones en ' + email + '.';
+  setStepper(4);
+  cs.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function verMiQueja(){
+  document.getElementById('card-misquejas').style.display='block';
+  renderQuejas();
+  document.getElementById('card-misquejas').scrollIntoView({behavior:'smooth'});
+}
+
+function nuevaQueja(){
+  document.getElementById('confirmScreen').classList.remove('show');
+  ['card-alcaldia','card-problema','card-datos'].forEach(id=>{
+    document.getElementById(id).style.display='';
+  });
+  document.getElementById('card-problema').style.display='none';
+  document.getElementById('card-datos').style.display='none';
+  document.getElementById('alcaldiaInput').value='';
+  document.getElementById('alcaldeCard').className='alcalde-card';
+  document.querySelectorAll('.cat-item').forEach(c=>c.classList.remove('selected'));
+  ['fNombre','fEmail','fTel','fColonia','fCalle','fDesc'].forEach(id=>document.getElementById(id).value='');
+  alcaldeSeleccionado=null; categoriaSeleccionada=null; urgencia='baja';
+  setStepper(1);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── Render tabla mis quejas ─────────────────────────────────────── */
+function renderQuejas(){
+  const body = document.getElementById('misquejas-body');
+  if(!misQuejas.length){
+    body.innerHTML='<div class="quejas-empty"><div class="icon">📭</div>Aún no tienes quejas registradas</div>';
+    return;
+  }
+  const ahora = Date.now();
+  const rows = misQuejas.map(q=>{
+    const dias = Math.floor((ahora - new Date(q.fecha).getTime()) / 86400000);
+    const estatus = dias >= 30 ? 'escalado' : dias >= 15 ? 'escalado' : q.estatus;
+    const pillClass = estatus==='escalado'?'pill-escalado':estatus==='atendido'?'pill-atendido':'pill-pendiente';
+    const pillText = estatus==='escalado'?'Escalado':estatus==='atendido'?'Atendido':'Pendiente';
+    const daysClass = dias>=15?'days-badge urgent':'days-badge';
+    return `<tr>
+      <td><span style="font-family:monospace;font-size:11px;color:var(--ink3)">${q.folio}</span></td>
+      <td><strong>${q.categoria}</strong><br><span style="font-size:11px;color:var(--ink3)">${q.alcaldia}</span></td>
+      <td>${q.colonia}</td>
+      <td><span class="status-pill ${pillClass}">${pillText}</span></td>
+      <td><span class="${daysClass}">${dias}d</span></td>
+    </tr>`;
+  }).join('');
+  body.innerHTML=`<table class="quejas-table">
+    <thead><tr><th>Folio</th><th>Tipo</th><th>Colonia</th><th>Estado</th><th>Días</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+// Mostrar quejas si ya hay
+if(misQuejas.length){
+  document.getElementById('card-misquejas').style.display='block';
+  renderQuejas();
+}
+</script>
+</body>
+</html>

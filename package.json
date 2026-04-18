@@ -1,0 +1,24 @@
+{
+  "name": "klaud",
+  "version": "1.0.0",
+  "description": "**Vectores de Dignidad: El derecho a la salud más allá de la puerta**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PabloBenitezR/Klaud.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PabloBenitezR/Klaud/issues"
+  },
+  "homepage": "https://github.com/PabloBenitezR/Klaud#readme",
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
+}

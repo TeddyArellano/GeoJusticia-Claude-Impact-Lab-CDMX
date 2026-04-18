@@ -1,0 +1,96 @@
+Clave Subsistemas Nacionales de Información	Subsistemas Nacionales de Información	Nombre de la base y/o conjunto de datos	Nombre de la tabla de la base de datos / hoja del conjunto de datos	Descripción del conjunto de datos	Clave de campo	Descripción de Campo	Tipo de dato	Rango o valores que permite el campo	Clasificación de la información	Especificaciones y/o reglas de cálculo	Obligatoriedad del campo	Registro de campos vacíos	Tipo de archivo
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	cve_ent	"Clave de la entidad de acuerdo al Catálogo Único de Claves de Áreas Geoestadísticas Estatales, Municipales y Localidades"	Alfanumérico	"Catálogo Único de Claves de Áreas Geoestadísticas Estatales, Municipales y Localidades"	Pública	El código debe tener dos dígitos	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	alcaldia	"Nombre de la alcaldía de acuerdo al Catálogo Único de Claves de Áreas Geoestadísticas Estatales, Municipales y Localidades"	Alfanumérico	"Catálogo Único de Claves de Áreas Geoestadísticas Estatales, Municipales y Localidades"	Pública	Texto	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	cve_col	Clave de colonia	Alfanumérico	Catálogo de Colonias Instituto Electoral (IECM)	Pública	El código debe tener cinco caracteres	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	colonia	Nombre de la colonia	Alfanumérico	Catálogo de Colonias Instituto Electoral (IECM)	Pública	Texto	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA1_NoEqSa	Total de Equipamientos de salud de primer nivel	Número entero	0 a 12	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA1_C_NoEq	"Reclasificación en cuantiles en 5 rangos a partir de ""BA1_NoEqSa"""	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA8_NoMerc	Número de mercados por colonia	Número entero	0 a 9	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA8_NoLoca	Número de locales por colonia	Número entero	0 a 6038	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA8_Ci_NoM	"Reclasificación en cuantiles en 5 rangos a partir del campo ""BA8_NoMerc""; donde el valor ""5"" corresponde a colonias sin mercados mientras que el ""1"" a colonias con mayor número de mercados"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA8_Ci_Loc	"Reclasificación en cuantiles en 5 rangos a partir del campo ""BA8_NoLoca""; donde el valor ""5"" corresponde a colonias sin locales mientras que el ""1"" a colonias con mayor número de locales"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA8_S_Merc	"Suma numérica de los campos ""BA8_Ci_Nom"" y ""BA8_Ci_Loc"""	Número entero	2 a 10	Pública	Agrupación de campos con el objetivo de reconocer zonas con carencias	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA8_C_Merc	"Reclasificación en cuantiles en 5 rangos a partir ""BA8_S_Merc""; donde el valor ""5"" representa las colonias con menor número de mercados y locales, mientras el ""1"" corresponde a colonias con mayor número"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA9_No_Gua	Número de guarderías por colonia	Número entero	0 a 4	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA9_C_No_G	"Reclasificación en cuantiles en 5 rangos a partir ""BA9_No_Gua""; donde el valor ""5"" representa las colonias con menor número de guarderías, mientras el ""1"" corresponde a colonias con mayor número"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA3_NoEqEd	Número de equipamiento educativo de primer nivel	Número entero	0 a 18	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA3_DisEqB	Distancia en metros recorridos a un equipamiento educativo	Número con decimales	0 a 1914.67	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA3_Ci_EqE	"Reclasificación en cuantiles en 5 rangos a partir ""BA3_NoEqEd""; donde el valor ""5"" representa las colonias con menor número de equipamiento educativo, mientras el ""1"" corresponde a colonias con mayor número"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA3_Ci_Dis	"Reclasificación en cuantiles en 5 rangos a partir ""BA3_DisEqB""; donde el valor ""5"" representa las colonias que tienen que recorrer mayor distancia, mientras el ""1"" corresponde a colonias que recorren menos distancia"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA3_S_EqEd	"Suma numérica de los campos ""BA3_Ci_EqE"" y ""BA3_Ci_Dis"""	Número entero		Pública	Agrupación de campos con el objetivo de reconocer zonas con carencias	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	BA3_C_EqEd	"Reclasificación en cuantiles en 5 rangos a partir del campo ""BA3_S_EqEd""; donde el valor ""5"" corresponde a colonias con menor equipamiento educativo de primer nivel y el número ""1"" a colonias con mayor equipamiento educativo"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	P_PorcElec	Porcentaje de viviendas con energía eléctrica por colonia	Número con decimales	0 a 100	Pública	Porcentaje	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	r_ValElect	"Reclasificación en cuantiles en 5 rangos a partir del campo ""P_PorcElect""; donde el valor ""5"" corresponde a colonias con menor porcentaje de energía eléctrica y el número ""1"" a un mayor porcentaje"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	P_AguaPot	Porcentaje de viviendas con agua potable por colonia	Número con decimales		Pública	Porcentaje	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	r_Val_Dren	"Reclasificación en cuantiles en 5 rangos a partir del campo ""P_AguaPot""; donde el valor ""5"" corresponde a colonias con menor porcentaje de agua potable y el número ""1"" a un mayor porcentaje"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	EPr_POB	Espacios públicos para recreación y deporte por población de la colonia (m2 /hab)	Número con decimales	0 a 0.86178	Pública	Metros cuadrados de equipamiento por habitantes totales de la colonia	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	r_EPr_POB	"Reclasificación en cuantiles en 5 rangos a partir del campo ""ePr_POB""; donde el valor ""5"" corresponde a menor espacio público de recreación y deporte para la población de la colonia mientras que el valor ""1"" corresponde a mayor superficie"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	resid_ton	Generación de residuos por colonia por tonelada	Número con decimales	0.00728 a 38.32	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	r_resd_ton	"Reclasificación en cuantiles en 5 rangos a partir del campo ""resid_ton""; donde el valor ""5"" corresponde a mayor generación de residuos y el valor ""1"" a menor"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	AlumP_sum	Alumbrado público por colonia	Número entero	0 a 985	Pública		Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	ALUMP_mean	Alumbrado público promedio por colonia	Número con decimales	0 a 4.583333	Pública	Promedio	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	r_AlumP_Su	"Reclasificación en cuantiles en 5 rangos a partir del campo ""AlumP_sum""; donde el valor ""5"" corresponde a colonias con menor alumbrado y el valor ""1"" a mayor"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	r_AlumP_Mn	"Reclasificación en cuantiles en 5 rangos a partir del campo ""ALUMP_mean""; donde el valor ""5"" corresponde a colonias con menor alumbrado y el valor ""1"" a mayor"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	S_RI_6	"Suma numérica de los campos ""BA1_C_NoEq"", ""BA3_C_EqEd"", ""BA8_C_Merc"", ""BA9_C_No_G"", ""r_ValElect"", ""r_Val_Dren"", ""r_Epr_POB"", ""r_resd_ton"", ""r_AlumP_Sum"""	Número entero		Pública	Agrupación de campos con el objetivo de reconocer zonas con carencias	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	C_RI_6	"Reclasificación en cuantiles en 5 rangos a partir del campo ""S_RI_6""; donde el valor ""5"" corresponde a colonias con mayor problemática y el valor ""1"" a zonas con menor problemática"	Número entero	"1 = Muy bajo
+2 = Bajo
+3 = Medio
+4 = Alto
+5 = Muy alto"	Pública	Reclasificación en cuantiles	Obligatorio	Sin datos vacíos	Shape (.shp)
+1	Vivienda	ri_6	Viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	Porcentaje de viviendas con servicios básicos y número de elementos de equipamiento de primer nivel	ID	Identificador	Número entero	1 a 1814	Pública	Número consecutivo	Obligatorio	Sin datos vacíos	Shape (.shp)
